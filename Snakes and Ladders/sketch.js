@@ -4,6 +4,15 @@ let hunter;
 let isRed
 let countingDirection;
 let isCountingRight;
+let cellData = {"number":0,"isLadderBottom":false};
+let gameBoard;
+// const cellData = {
+
+//   "number" : i+,
+//   "isLadderBottom":false,
+
+// };
+
 function setup(){
   textAlign(CENTER, CENTER);
   isRed = true;
@@ -14,12 +23,18 @@ function setup(){
   console.log("windowHeight"+windowHeight);
   isCountingRight = true;
   countingDirection = "left";
+  gameBoard = [];
+  gameBoard.length = 100;
+  textSize(50)
 }
 
 function draw(){
 
   drawGriddy();
-  
+  // for (x in gameBoard){
+  //   print(gameBoard[x]["number"])
+  // }
+  print(gameBoard[89]["number"]);
 
 
   strokeWeight(2);
@@ -41,12 +56,13 @@ function drawGriddy(){
 
   // look up nested for loops javascript if you're confused
   for (let y = 0; y < 10; y++) {
-
+    let tileNumber;
     isCountingRight = !isCountingRight;
   
     isRed = !isRed
     for (let x = 0; x < 10; x++) {
-  
+      // cellData
+      
       if (isRed){
         fill(255, 0, 0);
     }
@@ -56,10 +72,29 @@ function drawGriddy(){
       fill(0);
   
       if(isCountingRight){
-        text(100 - (y*10 + 9 - x), x*boardSize/10 + boardSize/20, y*boardSize/10 + boardSize/20);
+        tileNumber = 100 - (y*10 + 9 - x);
+
+        text(tileNumber, x*boardSize/10 + boardSize/20, y*boardSize/10 + boardSize/20);
+        
+        cellData["number"] = tileNumber;
+
+        // print(cellData["number"]);
+
+        gameBoard[tileNumber - 1] = {"number" : tileNumber ,"isLadderBottom" : false};
+
+        // append(gameBoard, TileData);
       }
       else{
+        tileNumber
         text(100 - (y*10 + x), x*boardSize/10 + boardSize/20, y*boardSize/10 + boardSize/20);
+
+        cellData["number"] = tileNumber;
+
+        // print(cellData["number"]);
+
+        gameBoard[tileNumber- 1] = {"number" : tileNumber ,"isLadderBottom" : false};
+
+        // append(gameBoard, TileData);
     }
     
       // 100 - (y*10 + x) = count from left to right side
@@ -67,11 +102,10 @@ function drawGriddy(){
       // figure out how to count from right to left HINT: y*10 does not need changing
   
       fill(255)
-  textSize(50)
+  
     }
     }
 }
-
 
 function hitGriddy(x, y){
   // converts X and Y coordinates to points on a 10 by 10 grid, then converts the points into a tile number
@@ -87,24 +121,35 @@ function hitGriddy(x, y){
   else{
     currentGriddy = (hitGriddyY - 1)* 10 + hitGriddyX;
   }
-  // return [hitGriddyX, hitGriddyY];
+  // return [hitGriddyX, hitGriddyY];f`
   return currentGriddy;
 }
+
+// for(i=0;i<=100;i++){
+// gameBoard[i] = cellData{"number":i+,"isLadderBottom":false}
+// }
+
 // tile number --> [1,1] to [10, 10] points --> [x, y]
+
 function griddyHit(griddy){
-let secondGriddy;
-let thirdGriddy;
-//secondGriddy = Number(str(griddy)[str(griddy).length - 1]);
-secondGriddy = Number(str(griddy)[1]);
-thirdGriddy = Number(str(griddy)[0]);
-print(secondGriddy);
-print(thirdGriddy);
-return [secondGriddy, thirdGriddy];
+  // griddy = 53;
+let horizGriddy;
+let vertiGriddy;
+
+horizGriddy = Number(str(griddy)[str(griddy).length - 1]);
+vertiGriddy = Number(str(griddy)[0]);
+if (griddy[1] === NaN){
+  vertiGriddy = 1;
+}
+
+print(horizGriddy);
+print(vertiGriddy);
+return [horizGriddy, vertiGriddy];
 }
 function mouseClicked(){
 
   print(hitGriddy(mouseX, mouseY));
-  print(griddyHit(hitGriddy(mouseX, mouseY)));
+  print(griddyHit(hitGriddy(mouseX, mouseY))); 
 }
 
 // 4 L8R
